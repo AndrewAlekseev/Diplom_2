@@ -1,6 +1,6 @@
 package user;
 
-import Responses.User.UserResponse;
+import responses.user.UserResponse;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
@@ -11,9 +11,9 @@ import org.junit.Test;
 import stellarburgers.model.user.User;
 import stellarburgers.steps.user.CreateUserSteps;
 
-import static Constants.ResponseConstants.OK_CODE;
-import static Constants.ResponseConstants.UNAUTHORIZED_CODE;
-import static Constants.Url.STELLARBURGERS_URL;
+import static constants.ResponseConstants.OK_CODE;
+import static constants.ResponseConstants.UNAUTHORIZED_CODE;
+import static constants.Url.STELLARBURGERS_URL;
 import static stellarburgers.steps.user.CreateUserSteps.deleteUser;
 
 public class LoginUserTest {

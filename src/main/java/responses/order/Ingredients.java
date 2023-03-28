@@ -1,4 +1,4 @@
-package Responses.Order;
+package responses.order;
 
 public class Ingredients {
     private String ingredientId;

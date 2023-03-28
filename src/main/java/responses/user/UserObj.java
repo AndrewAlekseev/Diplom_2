@@ -1,4 +1,4 @@
-package Responses.User;
+package responses.user;
 
 public class UserObj {
     private String email;

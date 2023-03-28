@@ -1,4 +1,4 @@
-package Constants;
+package constants;
 
 public class ResponseConstants {
     public static final int OK_CODE = 200;

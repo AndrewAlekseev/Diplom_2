@@ -9,10 +9,10 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import stellarburgers.model.user.User;
-import stellarburgers.steps.Order.OrderSteps;
+import stellarburgers.steps.order.OrderSteps;
 import stellarburgers.steps.user.CreateUserSteps;
 
-import static Constants.Url.STELLARBURGERS_URL;
+import static constants.Url.STELLARBURGERS_URL;
 
 
 public class GetUserOrderListTest {

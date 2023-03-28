@@ -1,4 +1,4 @@
-package Responses.Order;
+package responses.order;
 
 import java.util.List;
 

@@ -1,13 +1,13 @@
 package stellarburgers.steps.user;
 
-import Responses.User.UserResponse;
+import responses.user.UserResponse;
 import io.qameta.allure.Param;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.assertj.core.api.AssertionsForClassTypes;
 import stellarburgers.base.BaseMethods;
 
-import static Constants.ResponseConstants.OK_CODE;
+import static constants.ResponseConstants.OK_CODE;
 import static io.qameta.allure.model.Parameter.Mode.MASKED;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
@@ -21,13 +21,13 @@ public class CreateUserSteps {
 
     //Create user
     @Step("Создать пользователя")
-    public static Response createNewUser(Object body) {
+    public Response createNewUser(Object body) {
         return BaseMethods.postRequest(createUserEndpoint, body);
     }
 
     //Create user without password
     @Step("Попробовать создать пользователя, не отправляя пароль")
-    public static Response createUserWithoutPassword(String email, String login) {
+    public Response createUserWithoutPassword(String email, String login) {
         String body = "{\"email\": \"" + email + "\",\"name\": \"" + login + "\"}";
         return given()
                 .header("Content-type", "application/json")
@@ -37,7 +37,7 @@ public class CreateUserSteps {
 
     //Create user without login
     @Step("Попробовать создать пользователя, не отправляя логин")
-    public static Response createUserWithoutUsername(String email, String password) {
+    public Response createUserWithoutUsername(String email, String password) {
         String body = "{\"email\": \"" + email + "\",\"password\": \"" + password + "\"}";
         return given()
                 .header("Content-type", "application/json")
@@ -47,7 +47,7 @@ public class CreateUserSteps {
 
     //Create user without email
     @Step("Попробовать создать пользователя, не отправляя email")
-    public static Response createUserWithoutEmail(String login, String password) {
+    public Response createUserWithoutEmail(String login, String password) {
         String body = "{\"name\": \"" + login + "\",\"password\": \"" + password + "\"}";
         return given()
                 .header("Content-type", "application/json")
@@ -56,13 +56,13 @@ public class CreateUserSteps {
     }
 
     //Get authorization token
-    public static String getUserTokenFromResponse(Response response) {
+    public String getUserTokenFromResponse(Response response) {
         UserResponse responseAsObject = responseToObject(response);
         String tokenString = responseAsObject.getAccessToken().replace("Bearer ", "");
         return tokenString;
     }
 
-    public static String getUserTokenByUser(Object body) {
+    public String getUserTokenByUser(Object body) {
         Response response = BaseMethods.postRequest(loginUserEndpoint, body);
         UserResponse responseAsObject = responseToObject(response);
         String tokenString = responseAsObject.getAccessToken().replace("Bearer ", "");
@@ -71,7 +71,7 @@ public class CreateUserSteps {
 
     //Delete created user
     @Step("Удалить пользователя")
-    public static void deleteUser(Object body) {
+    public void deleteUser(Object body) {
         Response response = BaseMethods.postRequest(loginUserEndpoint, body);
         if (response.statusCode() == OK_CODE) {
             String token = getUserTokenFromResponse(response);
@@ -80,12 +80,12 @@ public class CreateUserSteps {
     }
 
     //Update user
-    public static Response updateUserParameter(String parameter, String newParameter) {
+    public Response updateUserParameter(String parameter, String newParameter) {
         String json = "{\"" + parameter + "\": \"" + newParameter + "\"}";
         return patchRequestWithJson(userDataEndpoint, json);
     }
 
-    public static Response updateWholeUser(Object newUser) {
+    public Response updateWholeUser(Object newUser) {
         return patchRequest(userDataEndpoint, newUser);
     }
 
@@ -97,19 +97,19 @@ public class CreateUserSteps {
         return response;
     }
 
-    public static Response updateWholeUserAuth(Object currentUser, Object newUser) {
+    public Response updateWholeUserAuth(Object currentUser, Object newUser) {
         String token = getUserTokenByUser(currentUser);
         Response response = patchRequestAuthenticated(userDataEndpoint, newUser, token);
         deleteByToken(token);
         return response;
     }
     @Step("Удалить пользователя")
-    public static void deleteByToken(@Param(name = "authToken", mode=MASKED) String token) {
+    public void deleteByToken(@Param(name = "authToken", mode=MASKED) String token) {
         BaseMethods.deleteUserRequest(userDataEndpoint, token);
     }
 
     @Step("Авторизоваться пользователем")
-    public static Response loginUser(Object body) {
+    public Response loginUser(Object body) {
         return BaseMethods.postRequest(loginUserEndpoint, body);
     }
 
@@ -122,7 +122,7 @@ public class CreateUserSteps {
 
     //Check response body
     @Step("Проверить тело ответа")
-    public static void checkSuccessResponseBody(Response response, boolean expectedSuccess, String expectedEmail, String expectedUserName) {
+    public void checkSuccessResponseBody(Response response, boolean expectedSuccess, String expectedEmail, String expectedUserName) {
         //System.out.println(response.body().asString());
         response.then().assertThat().body("success", equalTo(expectedSuccess));
         response.then().assertThat().body("user.email", equalTo(expectedEmail.toLowerCase()));
@@ -132,7 +132,7 @@ public class CreateUserSteps {
     }
 
     @Step("Проверить тело ответа на запрос обновления данных пользователя")
-    public static void checkSuccessUpdateResponseBody(Response response, boolean expectedSuccess, String expectedEmail, String expectedUserName) {
+    public void checkSuccessUpdateResponseBody(Response response, boolean expectedSuccess, String expectedEmail, String expectedUserName) {
         response.then().assertThat().body("success", equalTo(expectedSuccess));
         response.then().assertThat().body("user.email", equalTo(expectedEmail.toLowerCase()));
         response.then().assertThat().body("user.name", equalTo(expectedUserName));
@@ -140,32 +140,32 @@ public class CreateUserSteps {
 
     //Check status code
     @Step("Проверить код ответа")
-    public static void checkResponseCode(Response response, int expectedCode) {
+    public void checkResponseCode(Response response, int expectedCode) {
         response.then().assertThat().statusCode(expectedCode);
     }
 
     //Check response
     @Step("Проверить тело и статус ответа")
-    public static void verifyResponseData(Response response, int expectedCode, UserResponse expectedObject) {
+    public void verifyResponseData(Response response, int expectedCode, UserResponse expectedObject) {
         checkResponseCode(response, expectedCode);
         checkResponseBody(response, expectedObject);
     }
 
     //Check successful creation response data
     @Step("Проверить тело и статус ответа")
-    public static void verifySuccessfulCreationResponseData(Response response, int expectedCode, boolean expectedSuccess, String expectedEmail, String expectedUserName) {
+    public void verifySuccessfulCreationResponseData(Response response, int expectedCode, boolean expectedSuccess, String expectedEmail, String expectedUserName) {
         checkSuccessResponseBody(response, expectedSuccess, expectedEmail, expectedUserName);
         checkResponseCode(response, expectedCode);
 
     }
 
     @Step("Проверить тело и статус ответа на запрос обновления данных пользователя")
-    public static void verifySuccessfulUpdateResponseData(Response response, int expectedCode, boolean expectedSuccess, String expectedEmail, String expectedUserName) {
+    public void verifySuccessfulUpdateResponseData(Response response, int expectedCode, boolean expectedSuccess, String expectedEmail, String expectedUserName) {
         checkSuccessUpdateResponseBody(response, expectedSuccess, expectedEmail, expectedUserName);
         checkResponseCode(response, expectedCode);
     }
 
-    public static UserResponse responseToObject(Response response) {
+    public UserResponse responseToObject(Response response) {
         return response.body().as(UserResponse.class);
     }
 

@@ -1,12 +1,12 @@
-package stellarburgers.steps.Order;
-import Responses.Order.OrderResponse;
+package stellarburgers.steps.order;
+import responses.order.OrderResponse;
 import io.qameta.allure.Param;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.hamcrest.MatcherAssert;
 import stellarburgers.base.BaseMethods;
 
-import static Constants.ResponseConstants.*;
+import static constants.ResponseConstants.*;
 import static io.qameta.allure.model.Parameter.Mode.MASKED;
 import static org.hamcrest.Matchers.*;
 

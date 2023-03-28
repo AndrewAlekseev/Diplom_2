@@ -1,6 +1,4 @@
-package Responses.Order;
-
-import Responses.Order.Orders;
+package responses.order;
 
 import java.util.List;
 

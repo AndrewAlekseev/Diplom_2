@@ -1,4 +1,4 @@
-package Responses.User;
+package responses.user;
 
 public class UserResponse {
     private boolean success;

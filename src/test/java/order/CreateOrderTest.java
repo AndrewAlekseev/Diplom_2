@@ -9,11 +9,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import stellarburgers.model.order.Order;
-import stellarburgers.steps.Order.OrderSteps;
+import stellarburgers.steps.order.OrderSteps;
 
 import java.util.List;
 
-import static Constants.Url.STELLARBURGERS_URL;
+import static constants.Url.STELLARBURGERS_URL;
 
     @RunWith(Parameterized.class)
     public class CreateOrderTest {
